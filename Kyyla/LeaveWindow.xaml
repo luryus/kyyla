@@ -9,6 +9,7 @@
     xmlns:viewModel="clr-namespace:Kyyla.ViewModel"
     mc:Ignorable="d"
     Title="Kyyla" Height="270.5" Width="337" ResizeMode="NoResize" Icon="Resources/icon.png" ShowInTaskbar="False">
+    Style="{DynamicResource WindowStyle}"
     <Grid VerticalAlignment="Top" Margin="8">
         <Grid.RowDefinitions>
             <RowDefinition/>

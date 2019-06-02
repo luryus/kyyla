@@ -3,6 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Kyyla" ShutdownMode="OnExplicitShutdown" >
     <Application.Resources>
-         
+        <SolidColorBrush x:Key="WindowBackground" Color="#222222" />
+        <SolidColorBrush x:Key="DefaultForeground" Color="WhiteSmoke"></SolidColorBrush>
+        <Style TargetType="Window" x:Key="WindowStyle">
+            <Setter Property="Background" Value="{StaticResource WindowBackground}" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource DefaultForeground}" />
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="{StaticResource DefaultForeground}" />
+        </Style>
     </Application.Resources>
 </Application>

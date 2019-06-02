@@ -9,6 +9,7 @@
         xmlns:viewModel="clr-namespace:Kyyla.ViewModel"
         mc:Ignorable="d"
         Title="Kyyla" Height="209" Width="200" ResizeMode="NoResize">
+        Style="{DynamicResource WindowStyle}"
     <Grid HorizontalAlignment="Left" VerticalAlignment="Center" Margin="16,4">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
