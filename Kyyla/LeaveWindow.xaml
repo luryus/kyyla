@@ -8,8 +8,9 @@
     xmlns:reactiveui="http://reactiveui.net"
     xmlns:viewModel="clr-namespace:Kyyla.ViewModel"
     mc:Ignorable="d"
-    Title="Kyyla" Height="270.5" Width="337" ResizeMode="NoResize" Icon="Resources/icon.png" ShowInTaskbar="False">
+    Topmost="True"
     Style="{DynamicResource WindowStyle}"
+    Title="Kyyla" Height="270.5" Width="337" ResizeMode="NoResize" Icon="Resources/icon.png" ShowInTaskbar="False" Foreground="White">
     <Grid VerticalAlignment="Top" Margin="8">
         <Grid.RowDefinitions>
             <RowDefinition/>
