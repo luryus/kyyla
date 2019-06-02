@@ -1,4 +1,6 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using Kyyla.Model;
@@ -38,9 +40,12 @@ namespace Kyyla
 
         private static void InitializeLogging()
         {
+            var appDataFolder = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            var logsFolder = Path.Combine(appDataFolder, "Kyyla", "Logs");
+
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
-                .WriteTo.RollingFile("Logs\\kyyla-{Date}.log")
+                .WriteTo.RollingFile(logsFolder + @"\kyyla-{Date}.log")
                 .Enrich.FromLogContext()
                 .CreateLogger();
         }
