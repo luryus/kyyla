@@ -29,7 +29,7 @@
         <TextBox x:Name="ArrivalTimeTextBox" Grid.Row="0" Grid.Column="1" Margin="0,4" />
 
 
-        <Label x:Name="LeaveTimeLabel" Content="Arrival Time: " Grid.Row="1" Grid.Column="0" Margin="0,4" />
+        <Label x:Name="LeaveTimeLabel" Content="Leave Time: " Grid.Row="1" Grid.Column="0" Margin="0,4" />
         <TextBox x:Name="LeaveTimeTextBox" Grid.Row="1" Grid.Column="1" Margin="0,4" />
 
 
