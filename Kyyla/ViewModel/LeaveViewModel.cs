@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Globalization;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using DynamicData.Binding;
 using Kyyla.Model;
 using ReactiveUI;
@@ -42,6 +44,7 @@ namespace Kyyla.ViewModel
         }
 
         private readonly ObservableAsPropertyHelper<TimeSpan> _totalWorkTime;
+        private IArrivalTimeStore _arrivalStore;
         public TimeSpan TotalWorkTime => _totalWorkTime.Value;
 
         public LeaveViewModel()
@@ -52,18 +55,18 @@ namespace Kyyla.ViewModel
                 .ToProperty(this, x => x.TotalWorkTime);
 
             // Defaults
-            HardResetState();
+            RxApp.MainThreadScheduler.ScheduleAsync(async (s, ct) => await HardResetState());
 
-            var arrivalStore = Locator.Current.GetService<IArrivalTimeStore>();
-            arrivalStore.ArrivalTimeChanged += (sender, arrivalTime) =>
+            _arrivalStore = Locator.Current.GetService<IArrivalTimeStore>();
+            _arrivalStore.ArrivalTimeChanged += (sender, arrivalTime) =>
             {
-                HardResetState();
-                ArrivalTimeInput = arrivalTime.ToString("HHmm");
+                RxApp.MainThreadScheduler.ScheduleAsync(async (s, ct) => await HardResetState());
             };
         }
 
-        private void HardResetState()
+        private async Task HardResetState()
         {
+            ArrivalTimeInput = (await _arrivalStore.GetArrivalTimeAsync()).ToString("HHmm");
             LeaveTimeInput = DateTimeOffset.Now.ToString("HHmm");
             LunchDurationInput = DefaultLunchDuration.ToString();
             OtherAbsenceInput = DefaultAbsenceDuration.ToString();
