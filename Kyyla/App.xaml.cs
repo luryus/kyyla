@@ -58,11 +58,22 @@ namespace Kyyla
 
         private NotifyIcon CreateNotifyIcon()
         {
-            var iconHandle = Kyyla.Properties.Resources.icon.GetHicon();
+            // Is Windows setup with Dark or Light theme?
+            var lightThemeEnabled = false;
+            using (var regKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize"))
+            {
+                var regValue = (int?) regKey.GetValue("SystemUsesLightTheme");
+                if (regValue is int regValueNonNull && regValueNonNull > 0)
+                {
+                    lightThemeEnabled = true;
+                }
+            }
+
+            var iconHandle = lightThemeEnabled ? Kyyla.Properties.Resources.clock : Kyyla.Properties.Resources.clock_white;
             var notifyIcon = new NotifyIcon
             {
                 Visible = true,
-                Icon = Icon.FromHandle(iconHandle)
+                Icon = iconHandle
             };
             notifyIcon.MouseClick += (sender, args) =>
             {

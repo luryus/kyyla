@@ -10,7 +10,7 @@
     mc:Ignorable="d"
     Topmost="True"
     Style="{DynamicResource WindowStyle}"
-    Title="Kyyla" Height="270.5" Width="337" ResizeMode="NoResize" Icon="Resources/icon.png" ShowInTaskbar="False" Foreground="White">
+    Title="Kyyla" Height="270.5" Width="337" ResizeMode="NoResize" ShowInTaskbar="False" Icon="Resources/clock.ico" Foreground="White">
     <Grid VerticalAlignment="Top" Margin="8">
         <Grid.RowDefinitions>
             <RowDefinition/>
