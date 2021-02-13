@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Serilog;
@@ -32,9 +31,12 @@ namespace Kyyla.Model
         {
             try
             {
-                var contents = File.ReadAllText(_storeFilePath, Encoding.UTF8);
-                var obj = JsonConvert.DeserializeObject<ArrivalTimeObject>(contents);
-                return obj.ArrivalTime;
+                using (var reader = File.OpenText(_storeFilePath))
+                {
+                    var contents = await reader.ReadToEndAsync();
+                    var obj = JsonConvert.DeserializeObject<ArrivalTimeObject>(contents);
+                    return obj.ArrivalTime;
+                }
             }
             catch (Exception e) when (e is FileNotFoundException || e is DirectoryNotFoundException)
             {
@@ -55,7 +57,12 @@ namespace Kyyla.Model
                 var obj = new ArrivalTimeObject {ArrivalTime = arrivalTime};
                 var json = JsonConvert.SerializeObject(obj);
                 Directory.CreateDirectory(_appDataFolder);
-                File.WriteAllText(_storeFilePath, json, Encoding.UTF8);
+
+                using (var file = File.Open(_storeFilePath, FileMode.Create))
+                using (var writer = new StreamWriter(file))
+                {
+                    await writer.WriteAsync(json);
+                }
                 ArrivalTimeChanged?.Invoke(this, arrivalTime);
                 _logger.Debug("Stored new arrival time {arrivalTime}", arrivalTime);
             }

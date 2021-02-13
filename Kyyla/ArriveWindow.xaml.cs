@@ -1,11 +1,11 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Windows;
 using Kyyla.ViewModel;
 using ReactiveUI;
 using Serilog;
-using Serilog.Core;
 
 namespace Kyyla
 {
@@ -43,6 +43,8 @@ namespace Kyyla
                 ArrivalTimeTextBox.SelectAll();
                 ArrivalTimeTextBox.Focus();
             });
+
+            RxApp.MainThreadScheduler.Schedule(() => ViewModel.TriggerLoginDetected());
         }
 
         private void OnClosing(object sender, CancelEventArgs e)

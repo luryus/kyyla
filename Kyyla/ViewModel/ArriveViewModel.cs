@@ -53,22 +53,29 @@ namespace Kyyla.ViewModel
 
             AcceptArrivalTime = ReactiveCommand.CreateFromTask(StoreArrivalTime);
 
-            loginListener.LoginDetected += async (sender, args) =>
-            {
-                _logger.Debug("Got LoginDetected event");
-                var nowTime = DateTimeOffset.Now;
-                var previousTime = await _store.GetArrivalTimeAsync();
-
-                if (nowTime.Date > previousTime.Date)
-                {
-                    _logger.Debug("LoginDetected event first for day, resetting time");
-                    // It's a new day, show the window
-                    ArrivalTime = DateTimeOffset.Now.ToString("HHmm");
-                    LoginDetected?.Invoke(sender, EventArgs.Empty);
-                }
-            };
+            loginListener.LoginDetected += OnLoginDetected;
 
             _logger.Debug("ArriveViewModel created");
+        }
+
+        internal void TriggerLoginDetected()
+        {
+            OnLoginDetected(this, EventArgs.Empty);
+        }
+
+        private async void OnLoginDetected(object sender, EventArgs args)
+        {
+            _logger.Debug("Got LoginDetected event");
+            var nowTime = DateTimeOffset.Now;
+            var previousTime = await _store.GetArrivalTimeAsync();
+
+            if (nowTime.Date > previousTime.Date)
+            {
+                _logger.Debug("LoginDetected event first for day, resetting time");
+                // It's a new day, show the window
+                ArrivalTime = DateTimeOffset.Now.ToString("HHmm");
+                LoginDetected?.Invoke(sender, EventArgs.Empty);
+            }
         }
 
         private async Task StoreArrivalTime()
