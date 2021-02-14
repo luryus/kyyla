@@ -36,6 +36,8 @@ namespace Kyyla
                     dur => $"{dur:%h}h {dur:%m}min").DisposeWith(disposables);
                 this.OneWayBind(ViewModel, vm => vm.TotalWorkTime, v => v.HoursTotalTimeLabel.Content,
                     dur => $"{dur.TotalHours:F} h");
+
+                this.BindCommand(ViewModel, x => x.SaveArrivalTime, x => x.StoreArrivalTimeButton).DisposeWith(disposables);
             });
         }
 

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Globalization;
+using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using DynamicData.Binding;
 using Kyyla.Model;
 using ReactiveUI;
+using Serilog;
 using Splat;
 
 namespace Kyyla.ViewModel
@@ -43,12 +45,18 @@ namespace Kyyla.ViewModel
             set => this.RaiseAndSetIfChanged(ref _otherAbsenceInput, value);
         }
 
+        public ReactiveCommand<Unit, Unit> SaveArrivalTime { get; }
+
+        private readonly Serilog.ILogger _logger;
         private readonly ObservableAsPropertyHelper<TimeSpan> _totalWorkTime;
         private IArrivalTimeStore _arrivalStore;
         public TimeSpan TotalWorkTime => _totalWorkTime.Value;
 
         public LeaveViewModel()
         {
+
+            _logger = Log.Logger.ForContext<ArriveViewModel>();
+
             _totalWorkTime = this
                 .WhenAnyValue(x => x.ArrivalTimeInput, x => x.LeaveTimeInput, x => x.LunchDurationInput, x => x.OtherAbsenceInput)
                 .Select(_ => CalculateWorkTime())
@@ -62,6 +70,8 @@ namespace Kyyla.ViewModel
             {
                 RxApp.MainThreadScheduler.ScheduleAsync(async (s, ct) => await HardResetState());
             };
+
+            SaveArrivalTime = ReactiveCommand.CreateFromTask(StoreArrivalTime);
         }
 
         private async Task HardResetState()
@@ -110,6 +120,18 @@ namespace Kyyla.ViewModel
 
             return DateTimeOffset.MinValue;
         }
+
+        private async Task StoreArrivalTime()
+        {
+            var currentArrivalTime = ParseInputString(ArrivalTimeInput);
+            if (currentArrivalTime == default)
+            {
+                return;
+            }
+            _logger.Debug("Storing new arrival time (manual save): {ActualTime}", currentArrivalTime);
+            await _arrivalStore.SetArrivalTimeAsync(currentArrivalTime);
+        }
+
     }
 
 }

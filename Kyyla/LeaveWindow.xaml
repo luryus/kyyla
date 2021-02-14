@@ -7,10 +7,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:reactiveui="http://reactiveui.net"
     xmlns:viewModel="clr-namespace:Kyyla.ViewModel"
+    xmlns:local="clr-namespace:Kyyla"
     mc:Ignorable="d"
     Topmost="True"
     Style="{DynamicResource WindowStyle}"
-    Title="Kyyla" Height="270.5" Width="337" ResizeMode="NoResize" ShowInTaskbar="False" Icon="Resources/clock.ico" Foreground="White">
+    Title="Kyyla" Height="270.5" Width="337" ResizeMode="NoResize" ShowInTaskbar="False" Icon="/Resources/clock.ico" Foreground="White">
     <Grid VerticalAlignment="Top" Margin="8">
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -21,12 +22,16 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         <Label x:Name="ArrivalTimeLabel" Content="Arrival Time: " Grid.Row="0" Grid.Column="0" Margin="0,4" />
         <TextBox x:Name="ArrivalTimeTextBox" Grid.Row="0" Grid.Column="1" Margin="0,4" />
+        <Button x:Name="StoreArrivalTimeButton" Grid.Row="0" Grid.Column="2" Margin="4,4,4,4" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
+            <Image Source="{local:IconImage SymbolSize=16, SymbolCode=0xE74E}" Stretch="None" Width="20"/>
+        </Button>
 
 
         <Label x:Name="LeaveTimeLabel" Content="Leave Time: " Grid.Row="1" Grid.Column="0" Margin="0,4" />
