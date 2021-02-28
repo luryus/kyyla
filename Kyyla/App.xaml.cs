@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using Kyyla.Model;
+using Microsoft.EntityFrameworkCore;
 using ReactiveUI;
 using Serilog;
 using Splat;
@@ -24,6 +25,12 @@ namespace Kyyla
         public App()
         {
             InitializeLogging();
+            using (var db = new LockEventDbContext())
+            {
+                db.Database.Migrate();
+            }
+
+
             Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetCallingAssembly());
             RegisterDependencies();
 
@@ -45,7 +52,8 @@ namespace Kyyla
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
-                .WriteTo.RollingFile(logsFolder + @"\kyyla-{Date}.log")
+                .WriteTo.File(Path.Join(logsFolder, "kyyla.log"), rollingInterval: RollingInterval.Day)
+                .WriteTo.Debug()
                 .Enrich.FromLogContext()
                 .CreateLogger();
         }
@@ -54,6 +62,7 @@ namespace Kyyla
         {
             Locator.CurrentMutable.RegisterConstant<IArrivalTimeStore>(new ArrivalTimeStore());
             Locator.CurrentMutable.RegisterConstant<ILoginListener>(new LoginListener());
+            Locator.CurrentMutable.RegisterConstant<ILockEventStore>(new LockEventStore());
         }
 
         private NotifyIcon CreateNotifyIcon()
