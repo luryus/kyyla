@@ -19,10 +19,10 @@ namespace Kyyla.ViewModel
         private const int DefaultAbsenceDuration = 0;
 
 
-        private string _arrivalTimeInput;
-        private string _leaveTimeInput;
-        private string _lunchDurationInput;
-        private string _otherAbsenceInput;
+        private string _arrivalTimeInput = "";
+        private string _leaveTimeInput = "";
+        private string _lunchDurationInput = "";
+        private string _otherAbsenceInput = "";
 
         public string ArrivalTimeInput
         {
@@ -49,7 +49,7 @@ namespace Kyyla.ViewModel
 
         private readonly Serilog.ILogger _logger;
         private readonly ObservableAsPropertyHelper<TimeSpan> _totalWorkTime;
-        private IArrivalTimeStore _arrivalStore;
+        private readonly IArrivalTimeStore _arrivalStore;
         public TimeSpan TotalWorkTime => _totalWorkTime.Value;
 
         public LeaveViewModel()

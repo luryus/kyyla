@@ -1,4 +1,8 @@
-﻿using Kyyla.ViewModel;
+﻿#nullable disable
+
+using System.ComponentModel;
+using System.Reactive.Disposables;
+using Kyyla.ViewModel;
 using ReactiveUI;
 
 namespace Kyyla
@@ -11,6 +15,13 @@ namespace Kyyla
         public AbsenceWindow()
         {
             InitializeComponent();
+            ViewModel = new AbsenceViewModel();
+            
+            this.WhenActivated(disposables =>
+            {
+                this.OneWayBind(ViewModel, vm => vm.Rows, v => v.AbsenceListView.ItemsSource)
+                    .DisposeWith(disposables);
+            });
         }
     }
 }

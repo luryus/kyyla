@@ -6,7 +6,7 @@ namespace Kyyla.Model
 {
     public class LockEventDbContext : DbContext
     {
-        public DbSet<LockEvent> LockEvents { get; set; }
+        public DbSet<LockEvent> LockEvents => Set<LockEvent>();
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {

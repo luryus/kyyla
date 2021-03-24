@@ -11,6 +11,6 @@ namespace Kyyla.Model
         public Type EventType { get; set; }
 
         [Key]
-        public DateTimeOffset Timestamp { get; set; }
+        public DateTime Timestamp { get; set; }
     }
 }

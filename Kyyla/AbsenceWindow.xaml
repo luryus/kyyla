@@ -7,20 +7,24 @@
         xmlns:reactiveui="http://reactiveui.net"
         xmlns:viewModel="clr-namespace:Kyyla.ViewModel"
         mc:Ignorable="d"
-        Topmost="True"
-        Style="{DynamicResource WindowStyle}"
-        Title="Absence Times" Height="450" Width="800">
+        Title="Absence Times" Height="300" Width="300"
+        ResizeMode="CanResizeWithGrip">
     <Grid>
-        <ListBox x:Name="listBox" ItemsSource="{Binding Data}">
-            <ListBox.ItemTemplate>
-                <DataTemplate DataType="viewModel:AbsenceViewModel.RowViewModel">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
-                                HorizontalAlignment="Left">
-                        <Label Content="{Binding StartTime}" />
-                        <Label Content="{Binding EndTime}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <ListView x:Name="AbsenceListView" d:DataContext="{d:DesignInstance viewModel:AbsenceRowViewModel}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Start" DisplayMemberBinding="{Binding Path=StartTime, StringFormat='T'}" />
+                    <GridViewColumn Header="End" DisplayMemberBinding="{Binding Path=EndTime, StringFormat='T'}" />
+                    <GridViewColumn Header="Duration" DisplayMemberBinding="{Binding Duration, StringFormat='hh\\:mm\\:ss'}" />
+                    <GridViewColumn Header="">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsEnabled="{Binding CanCheck}" IsChecked="{Binding Path=Checked, Mode=TwoWay}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </reactiveui:ReactiveWindow>

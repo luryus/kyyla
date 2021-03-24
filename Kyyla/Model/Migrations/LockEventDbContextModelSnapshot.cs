@@ -18,7 +18,7 @@ namespace Kyyla.Model.Migrations
 
             modelBuilder.Entity("Kyyla.Model.LockEvent", b =>
                 {
-                    b.Property<DateTimeOffset>("Timestamp")
+                    b.Property<DateTime>("Timestamp")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("EventType")

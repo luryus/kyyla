@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kyyla.Model.Migrations
 {
     [DbContext(typeof(LockEventDbContext))]
-    [Migration("20210228191442_Initial")]
+    [Migration("20210307162124_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,7 +20,7 @@ namespace Kyyla.Model.Migrations
 
             modelBuilder.Entity("Kyyla.Model.LockEvent", b =>
                 {
-                    b.Property<DateTimeOffset>("Timestamp")
+                    b.Property<DateTime>("Timestamp")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("EventType")

@@ -11,7 +11,7 @@ namespace Kyyla.Model.Migrations
                 name: "LockEvents",
                 columns: table => new
                 {
-                    Timestamp = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "TEXT", nullable: false),
                     EventType = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>

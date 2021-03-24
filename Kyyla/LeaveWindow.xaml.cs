@@ -1,6 +1,12 @@
-﻿using System.ComponentModel;
+﻿#nullable disable
+
+using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Reactive.Disposables;
 using System.Windows;
+using System.Windows.Controls.Primitives;
+using Humanizer.DateTimeHumanizeStrategy;
 using Kyyla.ViewModel;
 using ReactiveUI;
 
@@ -13,10 +19,9 @@ namespace Kyyla
     {
         public LeaveWindow()
         {
+            Closing += OnClosing;
             InitializeComponent();
             ViewModel = new LeaveViewModel();
-
-            Closing += OnClosing;
 
             var workingArea = SystemParameters.WorkArea;
             Top = workingArea.Bottom - Height;
@@ -38,7 +43,43 @@ namespace Kyyla
                     dur => $"{dur.TotalHours:F} h");
 
                 this.BindCommand(ViewModel, x => x.SaveArrivalTime, x => x.StoreArrivalTimeButton).DisposeWith(disposables);
+
+                AbsenceListButton.Events().Click
+                    .Subscribe(ev =>
+                    {
+                        ShowAbsenceListDialog();
+                    });
             });
+        }
+
+        private void ShowAbsenceListDialog()
+        {
+            var absenceWindow = new AbsenceWindow();
+            Debug.Assert(absenceWindow.ViewModel != null);
+
+            absenceWindow.ViewModel.AbsenceTimeChange += (sender, span) =>
+            {
+                if (ViewModel == null)
+                {
+                    return;
+                }
+                
+                var minutes = (int) span.TotalMinutes;
+                if (!int.TryParse(ViewModel.OtherAbsenceInput, out var previousAbsence))
+                {
+                    previousAbsence = 0;
+                }
+
+                var newAbsence = previousAbsence + minutes;
+                if (newAbsence < 0)
+                {
+                    newAbsence = 0;
+                }
+
+                ViewModel.OtherAbsenceInput = newAbsence.ToString();
+            };
+            
+            absenceWindow.ShowDialog();
         }
 
         private void OnClosing(object sender, CancelEventArgs e)

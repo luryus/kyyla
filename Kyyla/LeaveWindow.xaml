@@ -11,7 +11,7 @@
     mc:Ignorable="d"
     Topmost="True"
     Style="{DynamicResource WindowStyle}"
-    Title="Kyyla" Height="270.5" Width="337" ResizeMode="NoResize" ShowInTaskbar="False" Icon="/Resources/clock.ico" Foreground="White">
+    Title="Kyyla" Height="270.5" Width="337" ResizeMode="NoResize" ShowInTaskbar="False" Icon="/Resources/clock.ico">
     <Grid VerticalAlignment="Top" Margin="8">
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -29,9 +29,8 @@
 
         <Label x:Name="ArrivalTimeLabel" Content="Arrival Time: " Grid.Row="0" Grid.Column="0" Margin="0,4" />
         <TextBox x:Name="ArrivalTimeTextBox" Grid.Row="0" Grid.Column="1" Margin="0,4" />
-        <Button x:Name="StoreArrivalTimeButton" Grid.Row="0" Grid.Column="2" Margin="4,4,4,4" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" >
-            <Image Source="{local:IconImage SymbolSize=16, SymbolCode=0xE74E}" Stretch="None" Width="20"/>
-        </Button>
+        <Button x:Name="StoreArrivalTimeButton" Grid.Row="0" Grid.Column="2" Margin="2" Content="&#xE74E;" 
+                Style="{DynamicResource IconButton}" />
 
 
         <Label x:Name="LeaveTimeLabel" Content="Leave Time: " Grid.Row="1" Grid.Column="0" Margin="0,4" />
@@ -44,7 +43,11 @@
 
         <Label x:Name="AbsenceDurationLabel" Content="Other Absence (min): " Grid.Row="3" Grid.Column="0" Margin="0,4" />
         <TextBox x:Name="AbsenceDurationTextBox" Grid.Row="3" Grid.Column="1" Margin="0,4" />
-
+        <Button x:Name="AbsenceListButton" Grid.Row="3" Grid.Column="2" Margin="2"  
+                Style="{DynamicResource IconButton}"
+                Content="&#xE805;">
+        </Button>
+        
         <Label x:Name="TotalTimeTitleLabel" Content="Total Work Time: " Grid.Row="4" Grid.Column="0" Margin="0,4" />
 
         <Label x:Name="HourMinutesTotalTimeLabel" Grid.Row="4" Grid.Column="1" Margin="0,4" />
