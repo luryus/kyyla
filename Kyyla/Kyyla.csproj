@@ -10,7 +10,7 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.3" />
-		<PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="ReactiveUI" Version="13.1.1" />
 		<PackageReference Include="ReactiveUI.Events.WPF" Version="13.1.1" />
 		<PackageReference Include="ReactiveUI.WPF" Version="13.1.1" />
