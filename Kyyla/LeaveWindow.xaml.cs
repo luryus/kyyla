@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.Reactive.Disposables;
 using System.Windows;
 using System.Windows.Controls.Primitives;
-using Humanizer.DateTimeHumanizeStrategy;
 using Kyyla.ViewModel;
 using ReactiveUI;
 

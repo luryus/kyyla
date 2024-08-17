@@ -5,6 +5,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using DynamicData.Binding;
+using Kyyla.Extensions;
 using Kyyla.Model;
 using ReactiveUI;
 using Serilog;
@@ -65,7 +66,7 @@ namespace Kyyla.ViewModel
             // Defaults
             RxApp.MainThreadScheduler.ScheduleAsync(async (s, ct) => await HardResetState());
 
-            _arrivalStore = Locator.Current.GetService<IArrivalTimeStore>();
+            _arrivalStore = Locator.Current.GetRequiredService<IArrivalTimeStore>();
             _arrivalStore.ArrivalTimeChanged += (sender, arrivalTime) =>
             {
                 RxApp.MainThreadScheduler.ScheduleAsync(async (s, ct) => await HardResetState());

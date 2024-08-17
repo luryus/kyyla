@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using Kyyla.Extensions;
 using Kyyla.Model;
 using ReactiveUI;
 using Serilog;
@@ -47,9 +48,8 @@ namespace Kyyla.ViewModel
                 .Where(x => x != DateTimeOffset.MinValue)
                 .ToProperty(this, x => x.ActualTime);
 
-
-            _store = Locator.Current.GetService<IArrivalTimeStore>();
-            var loginListener = Locator.Current.GetService<ILoginListener>();
+            _store = Locator.Current.GetRequiredService<IArrivalTimeStore>();
+            var loginListener = Locator.Current.GetRequiredService<ILoginListener>();
 
             AcceptArrivalTime = ReactiveCommand.CreateFromTask(StoreArrivalTime);
 

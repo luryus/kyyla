@@ -14,6 +14,7 @@ namespace Kyyla.Model
     {
         private readonly ILogger _logger;
         private readonly SourceList<(DateTimeOffset?, DateTimeOffset?)> _lockEventPairList;
+        private bool _suspended = false;
 
         public LockEventStore()
         {
@@ -28,17 +29,39 @@ namespace Kyyla.Model
             
             SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
 
+            SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
             //_lockEventPairList.Connect().Subscribe(x => Debugger.Break());
+        }
+
+        private void SystemEvents_PowerModeChanged(object sender, PowerModeChangedEventArgs e)
+        {
+            _logger.Debug("Got power mode switch event: {Reason}", e.Mode);
+            switch (e.Mode)
+            {
+                case PowerModes.Resume:
+                    _suspended = false;
+                    break;
+                case PowerModes.Suspend:
+                    _suspended = true;
+                    break;
+            }
         }
 
         public void Dispose()
         {
             SystemEvents.SessionSwitch -= SystemEvents_SessionSwitch;
+            SystemEvents.PowerModeChanged -= SystemEvents_PowerModeChanged;
         }
 
         private void SystemEvents_SessionSwitch(object sender, SessionSwitchEventArgs e)
         {
             LockEvent ev;
+            _logger.Debug("Got session switch event: {Reason}", e.Reason);
+            if (_suspended)
+            {
+                _logger.Debug("Suspended, ignoring the session switch event");
+                return;
+            }
             switch (e.Reason)
             {
                 case SessionSwitchReason.SessionUnlock:

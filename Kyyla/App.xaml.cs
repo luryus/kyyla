@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
+using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Markup;
 using Kyyla.Model;
 using Microsoft.EntityFrameworkCore;
 using ReactiveUI;
@@ -24,6 +27,13 @@ namespace Kyyla
 
         public App()
         {
+            // Ensure the current culture passed into bindings is the OS culture.
+            // By default, WPF uses en-US as the culture, regardless of the system settings.
+            FrameworkElement.LanguageProperty.OverrideMetadata(
+                typeof(FrameworkElement),
+                new FrameworkPropertyMetadata(
+                    XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
+            
             InitializeLogging();
             using (var db = new LockEventDbContext())
             {

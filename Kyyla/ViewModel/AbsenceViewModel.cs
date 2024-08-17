@@ -1,14 +1,12 @@
 ﻿using ReactiveUI;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using DynamicData;
-using DynamicData.Binding;
+using Kyyla.Extensions;
 using Kyyla.Model;
 using Splat;
 
@@ -25,7 +23,7 @@ namespace Kyyla.ViewModel
         
         public AbsenceViewModel()
         {            
-            var lockEventStore = Locator.Current.GetService<ILockEventStore>();
+            var lockEventStore = Locator.Current.GetRequiredService<ILockEventStore>();
 
             this.WhenActivated(disposables =>
             {
