@@ -13,7 +13,7 @@ namespace Kyyla.ViewModel
 {
     public class ArriveViewModel : ReactiveObject
     {
-        private string _arrivalTime;
+        private string _arrivalTime = "";
 
         public string ArrivalTime
         {
@@ -31,7 +31,7 @@ namespace Kyyla.ViewModel
 
         public ReactiveCommand<Unit, Unit> AcceptArrivalTime { get; }
 
-        public event EventHandler LoginDetected;
+        public event EventHandler? LoginDetected;
              
         public ArriveViewModel()
         {
@@ -63,7 +63,7 @@ namespace Kyyla.ViewModel
             OnLoginDetected(this, EventArgs.Empty);
         }
 
-        private async void OnLoginDetected(object sender, EventArgs args)
+        private async void OnLoginDetected(object? sender, EventArgs? args)
         {
             _logger.Debug("Got LoginDetected event");
             var nowTime = DateTimeOffset.Now;

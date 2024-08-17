@@ -23,6 +23,6 @@ namespace Kyyla.Model
             SystemEvents.SessionSwitch -= SystemEventsOnSessionSwitch;
         }
 
-        public event EventHandler LoginDetected;
+        public event EventHandler? LoginDetected;
     }
 }

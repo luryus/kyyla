@@ -72,6 +72,6 @@ namespace Kyyla.Model
             }
         }
 
-        public event EventHandler<DateTimeOffset> ArrivalTimeChanged;
+        public event EventHandler<DateTimeOffset>? ArrivalTimeChanged;
     }
 }

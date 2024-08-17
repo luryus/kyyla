@@ -71,7 +71,7 @@ namespace Kyyla
             var lightThemeEnabled = false;
             using (var regKey = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize"))
             {
-                var regValue = (int?) regKey.GetValue("SystemUsesLightTheme");
+                var regValue = (int?) regKey?.GetValue("SystemUsesLightTheme");
                 if (regValue is int regValueNonNull && regValueNonNull > 0)
                 {
                     lightThemeEnabled = true;
@@ -132,7 +132,7 @@ namespace Kyyla
             {
                 if (mainWindow is LeaveWindow lv)
                 {
-                    lv.ViewModel.SoftResetState();
+                    lv.ViewModel?.SoftResetState();
                 }
                 _logger.Debug("Showing main window");
                 mainWindow.Show();

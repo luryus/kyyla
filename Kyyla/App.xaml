@@ -5,14 +5,27 @@
     <Application.Resources>
         <SolidColorBrush x:Key="WindowBackground" Color="#222222" />
         <SolidColorBrush x:Key="DefaultForeground" Color="WhiteSmoke"></SolidColorBrush>
+        
+        <Style x:Key="ForegroundInheritanceFixStyle" TargetType="Control">
+            <Setter Property="Foreground"
+                    Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type FrameworkElement}}, Path=(TextElement.Foreground)}"/>
+        </Style>
+        
         <Style TargetType="Window" x:Key="WindowStyle">
             <Setter Property="Background" Value="{StaticResource WindowBackground}" />
-        </Style>
-        <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="{StaticResource DefaultForeground}" />
         </Style>
-        <Style TargetType="Label">
-            <Setter Property="Foreground" Value="{StaticResource DefaultForeground}" />
+
+        <Style TargetType="{x:Type Label}" BasedOn="{StaticResource ForegroundInheritanceFixStyle}">
+        </Style>
+
+        <Style TargetType="{x:Type Button}" x:Key="IconButton" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+            <Setter Property="Foreground"
+                    Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type FrameworkElement}}, Path=(TextElement.Foreground)}"/>
+
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="FontSize" Value="14pt" />
+            <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
         </Style>
     </Application.Resources>
 </Application>
