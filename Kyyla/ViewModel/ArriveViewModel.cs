@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Reactive;
+using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Kyyla.Extensions;
@@ -52,7 +53,7 @@ namespace Kyyla.ViewModel
             var loginListener = Locator.Current.GetRequiredService<ILoginListener>();
 
             AcceptArrivalTime = ReactiveCommand.CreateFromTask(StoreArrivalTime);
-
+            
             loginListener.LoginDetected += OnLoginDetected;
 
             _logger.Debug("ArriveViewModel created");
@@ -72,9 +73,13 @@ namespace Kyyla.ViewModel
             if (nowTime.Date > previousTime.Date)
             {
                 _logger.Debug("LoginDetected event first for day, resetting time");
-                // It's a new day, show the window
-                ArrivalTime = DateTimeOffset.Now.ToString("HHmm");
-                LoginDetected?.Invoke(sender, EventArgs.Empty);
+
+                RxApp.MainThreadScheduler.Schedule(() =>
+                {
+                    // It's a new day, show the window
+                    ArrivalTime = DateTimeOffset.Now.ToString("HHmm");
+                    LoginDetected?.Invoke(sender, EventArgs.Empty);
+                });
             }
         }
 
