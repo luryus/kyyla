@@ -5,7 +5,9 @@ using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Interop;
 using System.Windows.Markup;
+using System.Windows.Media;
 using Kyyla.Model;
 using Microsoft.EntityFrameworkCore;
 using ReactiveUI;
@@ -27,6 +29,10 @@ namespace Kyyla
 
         public App()
         {
+            // WPF or something has a bug where the memory usage of the process jumps to the sky
+            // with some Intel GPU drivers. Force software rendering to mitigate this.
+            RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+            
             // Ensure the current culture passed into bindings is the OS culture.
             // By default, WPF uses en-US as the culture, regardless of the system settings.
             FrameworkElement.LanguageProperty.OverrideMetadata(
